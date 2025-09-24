@@ -34,8 +34,7 @@ jobs:
             flutter pub get
             flutter drive \
               --driver=integration_test/driver.dart \
-              --target=integration_test/app_test.dart \
-              -d emulator-5554
+              --target=integration_test/app_test.dart
 
       - name: Upload screenshots
         if: always()
