@@ -19,15 +19,9 @@ instructions apply to the entire project unless superseded by a more specific
   appended to the root-level changelog.
 
 ## Architectural Requirements
-- Follow **Model-View-Intent (MVI)** architecture. Each feature view must have
-  an `IntentViewModel` and a `DisplayViewModel`.
-- Process all user inputs as **Intents** handled by dedicated
-  `IntentHandler` objects. `DisplayViewModel`s subscribe to the appropriate
-  `EventBus`, updating state through reducers and mutations.
 - Design all code according to:
   - [SOLID principles](https://www.geeksforgeeks.org/system-design/solid-principle-in-programming-understand-with-real-life-examples/).
   - [Clean Architecture](https://www.geeksforgeeks.org/system-design/complete-guide-to-clean-architecture/).
-  - [Composable Architecture](https://www.pointfree.co/collections/composable-architecture).
 - Adhere to the [Dart style guidelines](https://dart.dev/effective-dart/style).
 
 ## Quality Gates for Pull Requests
