@@ -46,8 +46,8 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build debug APK
-        run: flutter build apk --debug
+      - name: Build release APK
+        run: flutter build apk --release
 
   build-ios:
     name: Build iOS
