@@ -46,15 +46,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<OnboardingState>(
-      onboardingControllerProvider,
-      (previous, next) {
-        if (previous?.stepIndex != next.stepIndex || previous == null) {
-          final controller = ref.read(onboardingControllerProvider.notifier);
-          controller.recordStepViewed(controller.currentStep);
-        }
-      },
-    );
+    ref.listen<OnboardingState>(onboardingControllerProvider, (previous, next) {
+      if (previous?.stepIndex != next.stepIndex || previous == null) {
+        final controller = ref.read(onboardingControllerProvider.notifier);
+        controller.recordStepViewed(controller.currentStep);
+      }
+    });
 
     final state = ref.watch(onboardingControllerProvider);
     final controller = ref.read(onboardingControllerProvider.notifier);
@@ -63,26 +60,23 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final currentStep = controller.currentStep;
 
     if (!_hydrated) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    return WillPopScope(
-      onWillPop: () => _handleWillPop(controller),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) async {
+        if (didPop) return;
+        final latestState = ref.read(onboardingControllerProvider);
+        await _handleBackNavigation(controller, latestState);
+      },
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(stepIndex == 0 ? Icons.close : Icons.arrow_back),
             onPressed: () async {
-              if (stepIndex == 0) {
-                final exit = await _confirmExit(context);
-                if (exit && context.mounted) {
-                  context.go(RoutePaths.today);
-                }
-              } else {
-                controller.retreatStep();
-              }
+              final latestState = ref.read(onboardingControllerProvider);
+              await _handleBackNavigation(controller, latestState);
             },
           ),
           title: const Text('Getting started'),
@@ -102,12 +96,19 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     );
   }
 
-  Future<bool> _handleWillPop(OnboardingController controller) async {
-    if (controller.state.stepIndex == 0) {
-      return await _confirmExit(context);
+  Future<void> _handleBackNavigation(
+    OnboardingController controller,
+    OnboardingState state,
+  ) async {
+    if (state.stepIndex == 0) {
+      final router = GoRouter.of(context);
+      final exit = await _confirmExit(context);
+      if (exit && mounted) {
+        router.go(RoutePaths.today);
+      }
+      return;
     }
     controller.retreatStep();
-    return false;
   }
 
   Future<bool> _confirmExit(BuildContext context) async {
@@ -163,7 +164,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           onToggle: controller.toggleTemplate,
           onContinue: () {
             if (!controller.validateStep(OnboardingStepId.templates)) {
-              _showError(context, templateSelectionError(state.selectedHabits.length));
+              _showError(
+                context,
+                templateSelectionError(state.selectedHabits.length),
+              );
               return;
             }
             controller.advanceStep();
@@ -226,7 +230,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             final granted = await _showPermissionPrompt(
               context,
               title: 'Allow notifications?',
-              message: 'We\'ll only send relevant nudges and you can adjust at any time.',
+              message:
+                  'We\'ll only send relevant nudges and you can adjust at any time.',
               confirmLabel: 'Allow',
             );
             if (granted != null) {
@@ -236,7 +241,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           onSkip: () {
             controller.setNotificationsResult(false);
             controller.advanceStep();
-            _showError(context, 'Notifications can be enabled later from Settings.');
+            _showError(
+              context,
+              'Notifications can be enabled later from Settings.',
+            );
           },
         );
       case OnboardingStepId.health:
@@ -276,10 +284,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           stepIndex: stepIndex,
           totalSteps: totalSteps,
           onFinish: () async {
+            final router = GoRouter.of(context);
+            final destination =
+                ref.read(onboardingControllerProvider).nextRoute ??
+                RoutePaths.today;
             await controller.completeOnboarding();
-            if (!mounted) return;
-            final destination = state.nextRoute ?? RoutePaths.today;
-            context.go(destination);
+            router.go(destination);
           },
         );
     }
@@ -322,8 +332,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   void _showError(BuildContext context, String? message) {
     if (message == null) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 }

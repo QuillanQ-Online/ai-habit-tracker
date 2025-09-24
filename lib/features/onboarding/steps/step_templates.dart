@@ -34,6 +34,14 @@ class TemplatePickerStep extends StatelessWidget {
       stepIndex: stepIndex,
       totalSteps: totalSteps,
       title: 'Pick a few habits to jump-start',
+      onPrimaryPressed: onContinue,
+      primaryLabel: 'Continue',
+      onBack: onBack,
+      secondaryLabel: 'Back',
+      tertiaryLabel: 'Skip templates',
+      onTertiaryPressed: onSkip,
+      isPrimaryEnabled: selectedIds.length <= maxTemplateSelection,
+      helperText: error,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -68,10 +76,11 @@ class TemplatePickerStep extends StatelessWidget {
                             const SizedBox(height: 8),
                             Text(
                               'Target: ${template.defaultTarget} ${template.unit.label}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(color: Theme.of(context).colorScheme.primary),
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodySmall?.copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                             ),
                           ],
                         ),
@@ -88,14 +97,6 @@ class TemplatePickerStep extends StatelessWidget {
           }),
         ],
       ),
-      onPrimaryPressed: onContinue,
-      primaryLabel: 'Continue',
-      onBack: onBack,
-      secondaryLabel: 'Back',
-      tertiaryLabel: 'Skip templates',
-      onTertiaryPressed: onSkip,
-      isPrimaryEnabled: selectedIds.length <= maxTemplateSelection,
-      helperText: error,
     );
   }
 }

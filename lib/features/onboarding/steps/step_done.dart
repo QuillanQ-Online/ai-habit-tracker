@@ -20,17 +20,19 @@ class DoneStep extends StatelessWidget {
       stepIndex: stepIndex,
       totalSteps: totalSteps,
       title: 'All set!',
+      onPrimaryPressed: onFinish,
+      primaryLabel: 'Let\'s go',
+      onBack: null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [
           Icon(Icons.verified_rounded, size: 72, color: Colors.green),
           SizedBox(height: 16),
-          Text('Your plan is ready. We\'ll take you to Today to start acting on it.'),
+          Text(
+            'Your plan is ready. We\'ll take you to Today to start acting on it.',
+          ),
         ],
       ),
-      onPrimaryPressed: onFinish,
-      primaryLabel: 'Let\'s go',
-      onBack: null,
     );
   }
 }

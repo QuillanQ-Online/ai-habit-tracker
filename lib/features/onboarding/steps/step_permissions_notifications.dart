@@ -29,6 +29,13 @@ class NotificationsPermissionStep extends StatelessWidget {
       stepIndex: stepIndex,
       totalSteps: totalSteps,
       title: 'Stay accountable with gentle reminders',
+      onPrimaryPressed: onContinue,
+      primaryLabel: 'Continue',
+      onBack: onBack,
+      secondaryLabel: 'Back',
+      tertiaryLabel: 'Fix later',
+      onTertiaryPressed: onSkip,
+      isPrimaryEnabled: status != null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -47,19 +54,12 @@ class NotificationsPermissionStep extends StatelessWidget {
             status == null
                 ? 'Status: not requested yet'
                 : status == true
-                    ? 'Notifications granted ✅'
-                    : 'Notifications denied. You can enable them later.',
+                ? 'Notifications granted ✅'
+                : 'Notifications denied. You can enable them later.',
             style: theme.textTheme.bodySmall,
           ),
         ],
       ),
-      onPrimaryPressed: onContinue,
-      primaryLabel: 'Continue',
-      onBack: onBack,
-      secondaryLabel: 'Back',
-      tertiaryLabel: 'Fix later',
-      onTertiaryPressed: onSkip,
-      isPrimaryEnabled: status != null,
     );
   }
 }

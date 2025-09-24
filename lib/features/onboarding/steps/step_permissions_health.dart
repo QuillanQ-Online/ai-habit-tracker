@@ -29,6 +29,13 @@ class HealthPermissionStep extends StatelessWidget {
       stepIndex: stepIndex,
       totalSteps: totalSteps,
       title: 'Connect your health data (optional)',
+      onPrimaryPressed: onContinue,
+      primaryLabel: 'Continue',
+      onBack: onBack,
+      secondaryLabel: 'Back',
+      tertiaryLabel: 'Skip for now',
+      onTertiaryPressed: onSkip,
+      isPrimaryEnabled: status != null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -47,19 +54,12 @@ class HealthPermissionStep extends StatelessWidget {
             status == null
                 ? 'Status: not requested yet'
                 : status == true
-                    ? 'Health access granted ✅'
-                    : 'Health access declined. You can reconnect later.',
+                ? 'Health access granted ✅'
+                : 'Health access declined. You can reconnect later.',
             style: theme.textTheme.bodySmall,
           ),
         ],
       ),
-      onPrimaryPressed: onContinue,
-      primaryLabel: 'Continue',
-      onBack: onBack,
-      secondaryLabel: 'Back',
-      tertiaryLabel: 'Skip for now',
-      onTertiaryPressed: onSkip,
-      isPrimaryEnabled: status != null,
     );
   }
 }

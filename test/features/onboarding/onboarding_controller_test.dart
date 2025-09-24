@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:ai_habit_tracker/features/onboarding/onboarding_controller.dart';
-import 'package:ai_habit_tracker/features/onboarding/onboarding_state.dart';
 import 'package:ai_habit_tracker/features/onboarding/onboarding_storage.dart';
 import 'package:ai_habit_tracker/shared/models/habit_template.dart';
 import 'package:ai_habit_tracker/shared/services/onboarding_service.dart';

@@ -21,7 +21,8 @@ class TimeWindowsStep extends StatelessWidget {
   final List<SelectedHabit> habits;
   final VoidCallback onBack;
   final VoidCallback onContinue;
-  final void Function(String templateId, List<TimeWindowSelection> windows) onUpdateWindows;
+  final void Function(String templateId, List<TimeWindowSelection> windows)
+  onUpdateWindows;
   final Future<TimeOfDay?> Function(BuildContext context) onAddCustomTime;
 
   @override
@@ -31,25 +32,29 @@ class TimeWindowsStep extends StatelessWidget {
       stepIndex: stepIndex,
       totalSteps: totalSteps,
       title: 'When should we nudge you?',
-      child: habits.isEmpty
-          ? const Text('We\'ll skip reminders for now. You can add habits any time from Today.')
-          : Column(
-              children: habits
-                  .map(
-                    (habit) => _HabitWindowsCard(
-                      habit: habit,
-                      onUpdate: onUpdateWindows,
-                      onAddCustomTime: onAddCustomTime,
-                    ),
-                  )
-                  .toList(),
-            ),
       onPrimaryPressed: onContinue,
       primaryLabel: 'Continue',
       onBack: onBack,
       secondaryLabel: 'Back',
       isPrimaryEnabled: helper == null,
       helperText: helper,
+      child:
+          habits.isEmpty
+              ? const Text(
+                'We\'ll skip reminders for now. You can add habits any time from Today.',
+              )
+              : Column(
+                children:
+                    habits
+                        .map(
+                          (habit) => _HabitWindowsCard(
+                            habit: habit,
+                            onUpdate: onUpdateWindows,
+                            onAddCustomTime: onAddCustomTime,
+                          ),
+                        )
+                        .toList(),
+              ),
     );
   }
 }
@@ -62,7 +67,8 @@ class _HabitWindowsCard extends StatelessWidget {
   });
 
   final SelectedHabit habit;
-  final void Function(String templateId, List<TimeWindowSelection> windows) onUpdate;
+  final void Function(String templateId, List<TimeWindowSelection> windows)
+  onUpdate;
   final Future<TimeOfDay?> Function(BuildContext context) onAddCustomTime;
 
   @override
@@ -103,7 +109,10 @@ class _HabitWindowsCard extends StatelessWidget {
                   onPressed: () async {
                     final time = await onAddCustomTime(context);
                     if (time != null) {
-                      final updated = [...windows, TimeWindowSelection.custom(time)];
+                      final updated = [
+                        ...windows,
+                        TimeWindowSelection.custom(time),
+                      ];
                       onUpdate(habit.templateId, updated);
                     }
                   },

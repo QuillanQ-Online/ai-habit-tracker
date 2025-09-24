@@ -22,6 +22,11 @@ class WelcomeStep extends StatelessWidget {
       stepIndex: stepIndex,
       totalSteps: totalSteps,
       title: 'Stay on track with gentle nudges',
+      onPrimaryPressed: onGetStarted,
+      primaryLabel: 'Get started',
+      onBack: null,
+      tertiaryLabel: 'Maybe later',
+      onTertiaryPressed: onMaybeLater,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [
@@ -29,14 +34,11 @@ class WelcomeStep extends StatelessWidget {
             'Nudge helps you build meaningful routines with privacy-first reminders and insights that respect your pace.',
           ),
           SizedBox(height: 16),
-          Text('We\'ll start with a couple of quick questions to tailor your plan.'),
+          Text(
+            'We\'ll start with a couple of quick questions to tailor your plan.',
+          ),
         ],
       ),
-      onPrimaryPressed: onGetStarted,
-      primaryLabel: 'Get started',
-      onBack: null,
-      tertiaryLabel: 'Maybe later',
-      onTertiaryPressed: onMaybeLater,
     );
   }
 }
