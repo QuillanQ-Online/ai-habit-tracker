@@ -15,6 +15,7 @@ class HabitNewScreen extends ConsumerStatefulWidget {
 class _HabitNewScreenState extends ConsumerState<HabitNewScreen> {
   late final TextEditingController _controller;
   bool _loading = true;
+  bool _draftCleared = false;
 
   @override
   void initState() {
@@ -33,7 +34,9 @@ class _HabitNewScreenState extends ConsumerState<HabitNewScreen> {
 
   @override
   void dispose() {
-    ref.read(navStateStoreProvider).writeHabitNewDraft(_controller.text);
+    if (!_draftCleared) {
+      ref.read(navStateStoreProvider).writeHabitNewDraft(_controller.text);
+    }
     _controller.dispose();
     super.dispose();
   }
@@ -58,6 +61,7 @@ class _HabitNewScreenState extends ConsumerState<HabitNewScreen> {
             const Spacer(),
             ElevatedButton(
               onPressed: () async {
+                _draftCleared = true;
                 await ref.read(navStateStoreProvider).clearHabitNewDraft();
                 // TODO: Save habit to backend and obtain an ID.
                 if (!context.mounted) return;
