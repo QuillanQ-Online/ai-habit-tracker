@@ -1,0 +1,52 @@
+name: iOS UI Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  ui-tests:
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.1'
+          channel: stable
+
+      - name: Install dependencies
+        run: |
+          flutter pub get
+          cd ios
+          pod install
+
+      - name: Run iOS UI tests
+        run: |
+          set -eo pipefail
+          xcodebuild \
+            -workspace ios/Runner.xcworkspace \
+            -scheme Runner \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -resultBundlePath build/ios_ui_tests.xcresult \
+            test
+
+      - name: Export UI test screenshots
+        run: |
+          mkdir -p build/ui-test-artifacts
+          xcrun xcresulttool export \
+            --type directory \
+            --output-path build/ui-test-artifacts \
+            --xcresultpath build/ios_ui_tests.xcresult
+
+      - name: Upload UI test screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-ui-test-screenshots
+          path: build/ui-test-artifacts
+          if-no-files-found: warn
