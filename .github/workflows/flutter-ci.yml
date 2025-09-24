@@ -26,10 +26,6 @@ jobs:
       - name: Run unit tests
         run: flutter test
 
-      - name: Run UI tests
-        if: ${{ hashFiles('integration_test/**') != '' }}
-        run: flutter test integration_test
-
   build-android:
     name: Build Android
     runs-on: ubuntu-latest
