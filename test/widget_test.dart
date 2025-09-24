@@ -26,6 +26,6 @@ void main() {
 
     await tester.pumpAndSettle();
 
-    expect(find.text('Welcome to Nudge'), findsOneWidget);
+    expect(find.text('Stay on track with gentle nudges'), findsOneWidget);
   });
 }
