@@ -25,7 +25,7 @@ class DoneStep extends StatelessWidget {
       onBack: null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           const Icon(Icons.verified_rounded, size: 72, color: Colors.green),
           SizedBox(height: 16),
           Text(
