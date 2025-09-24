@@ -7,7 +7,7 @@ on:
 jobs:
   analyze-and-test:
     name: Analyze and Test
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,7 +28,7 @@ jobs:
 
   build-android:
     name: Build Android
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs: analyze-and-test
     steps:
       - name: Checkout repository
