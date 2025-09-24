@@ -29,12 +29,12 @@ class WelcomeStep extends StatelessWidget {
       onTertiaryPressed: onMaybeLater,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text(
+        children: <Widget>[
+          const Text(
             'Nudge helps you build meaningful routines with privacy-first reminders and insights that respect your pace.',
           ),
-          SizedBox(height: 16),
-          Text(
+          const SizedBox(height: 16),
+          const Text(
             'We\'ll start with a couple of quick questions to tailor your plan.',
           ),
         ],

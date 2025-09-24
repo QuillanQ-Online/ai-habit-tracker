@@ -286,10 +286,10 @@ final defaultHabitTemplates = <HabitTemplate>[
     description: 'Stay hydrated with a quick reminder.',
     unit: HabitUnit.milliliters,
     defaultTarget: 250,
-    defaultWindows: const [
-      TimeWindowSelection._(type: TimeWindowType.preset, preset: TimeWindowPreset.morning),
-      TimeWindowSelection._(type: TimeWindowType.preset, preset: TimeWindowPreset.afternoon),
-    ],
+    defaultWindows: List.unmodifiable([
+      TimeWindowSelection.preset(TimeWindowPreset.morning),
+      TimeWindowSelection.preset(TimeWindowPreset.afternoon),
+    ]),
   ),
   HabitTemplate(
     id: 'ten-minute-walk',
@@ -298,9 +298,9 @@ final defaultHabitTemplates = <HabitTemplate>[
     description: 'Stretch your legs with a brisk walk.',
     unit: HabitUnit.minutes,
     defaultTarget: 10,
-    defaultWindows: const [
-      TimeWindowSelection._(type: TimeWindowType.preset, preset: TimeWindowPreset.afternoon),
-    ],
+    defaultWindows: List.unmodifiable([
+      TimeWindowSelection.preset(TimeWindowPreset.afternoon),
+    ]),
   ),
   HabitTemplate(
     id: 'mindfulness',
@@ -309,10 +309,10 @@ final defaultHabitTemplates = <HabitTemplate>[
     description: 'Recharge with a short mindful break.',
     unit: HabitUnit.minutes,
     defaultTarget: 5,
-    defaultWindows: const [
-      TimeWindowSelection._(type: TimeWindowType.preset, preset: TimeWindowPreset.morning),
-      TimeWindowSelection._(type: TimeWindowType.preset, preset: TimeWindowPreset.evening),
-    ],
+    defaultWindows: List.unmodifiable([
+      TimeWindowSelection.preset(TimeWindowPreset.morning),
+      TimeWindowSelection.preset(TimeWindowPreset.evening),
+    ]),
   ),
   HabitTemplate(
     id: 'read-pages',
@@ -321,9 +321,9 @@ final defaultHabitTemplates = <HabitTemplate>[
     description: 'Keep learning every day.',
     unit: HabitUnit.pages,
     defaultTarget: 10,
-    defaultWindows: const [
-      TimeWindowSelection._(type: TimeWindowType.preset, preset: TimeWindowPreset.evening),
-    ],
+    defaultWindows: List.unmodifiable([
+      TimeWindowSelection.preset(TimeWindowPreset.evening),
+    ]),
   ),
   HabitTemplate(
     id: 'stretch',
@@ -332,8 +332,8 @@ final defaultHabitTemplates = <HabitTemplate>[
     description: 'Release tension with quick stretches.',
     unit: HabitUnit.minutes,
     defaultTarget: 3,
-    defaultWindows: const [
-      TimeWindowSelection._(type: TimeWindowType.preset, preset: TimeWindowPreset.morning),
-    ],
+    defaultWindows: List.unmodifiable([
+      TimeWindowSelection.preset(TimeWindowPreset.morning),
+    ]),
   ),
 ];

@@ -26,18 +26,37 @@ class OnboardingScreen extends ConsumerStatefulWidget {
 
 class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   bool _hydrated = false;
+  ProviderSubscription<OnboardingState>? _stepSubscription;
 
   @override
   void initState() {
     super.initState();
+    _stepSubscription = ref.listenManual<OnboardingState>(
+      onboardingControllerProvider,
+      (previous, next) {
+        if (previous?.stepIndex != next.stepIndex || previous == null) {
+          final controller = ref.read(onboardingControllerProvider.notifier);
+          controller.recordStepViewed(controller.currentStep);
+        }
+      },
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _hydrate();
     });
   }
 
+  @override
+  void dispose() {
+    _stepSubscription?.close();
+    super.dispose();
+  }
+
   Future<void> _hydrate() async {
     final controller = ref.read(onboardingControllerProvider.notifier);
     await controller.hydrate(nextRoute: widget.next);
+    if (!mounted) {
+      return;
+    }
     setState(() {
       _hydrated = true;
     });
@@ -46,13 +65,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<OnboardingState>(onboardingControllerProvider, (previous, next) {
-      if (previous?.stepIndex != next.stepIndex || previous == null) {
-        final controller = ref.read(onboardingControllerProvider.notifier);
-        controller.recordStepViewed(controller.currentStep);
-      }
-    });
-
     final state = ref.watch(onboardingControllerProvider);
     final controller = ref.read(onboardingControllerProvider.notifier);
     final totalSteps = controller.activeSteps.length;
